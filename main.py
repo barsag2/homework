@@ -27,14 +27,18 @@ class Student:
         all_grades = []
         for grades_list in self.grades.values():
             all_grades.extend(grades_list)
-            if all_grades:
-                average = sum(all_grades) / len(all_grades)
-                result = round(average, 1)
-            else:
-                result = 0
-        return result
+        if all_grades:
+            return round(sum(all_grades) / len(all_grades), 1) if all_grades else 0
+        return 0
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            return False
+        return self.average_grade() < other.average_grade()
 
-
+    def __eq__(self, other):
+        if not isinstance(other, Student):
+            return False
+        return self.average_grade() == other.average_grade()
 
     def __str__(self):
         avg = self.average_grade()
@@ -44,6 +48,7 @@ class Student:
                 f'Средняя оценка за домашние задания: {avg}\n'
                 f'Курсы в процессе изучения: {in_progress}\n'
                 f'Завершенные курсы: {finished}')
+
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -70,13 +75,19 @@ class Lecturer(Mentor):
         all_grades = []
         for grades_list in self.grades.values():
             all_grades.extend(grades_list)
-            if all_grades:
-                average = sum(all_grades) / len(all_grades)
-                result = round(average, 1)
-            else:
-                result = 0
-        return result
+        if all_grades:
+            return round(sum(all_grades) / len(all_grades), 1) if all_grades else 0
+        return 0
 
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            return False
+        return self.average_grade() < other.average_grade()
+
+    def __eq__(self, other):
+        if not isinstance(other, Lecturer):
+            return False
+        return self.average_grade() == other.average_grade()
 
     def __str__(self):
         avg = self.average_grade()
